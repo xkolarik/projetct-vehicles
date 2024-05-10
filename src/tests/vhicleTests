@@ -1,0 +1,69 @@
+const assert = require('assert');
+const sinon = require('sinon'); // Para simular funções do modelo de veículo
+
+// Importar as funções a serem testadas
+const vehicleService = require('../services/vehicle');
+
+describe('Vehicle Service', function() {
+
+    describe('getAllVehicles', function() {
+        it('should call readDataFromFile function', function() {
+            const mockCallback = sinon.fake();
+            const mockVehicleModel = {
+                readDataFromFile: mockCallback
+            };
+            vehicleService.getAllVehicles(mockCallback);
+            assert(mockCallback.calledOnce);
+        });
+    });
+
+    describe('getVehicleById', function() {
+        it('should call findVehicleById function with correct id', function() {
+            const mockCallback = sinon.fake();
+            const mockVehicleModel = {
+                findVehicleById: sinon.fake()
+            };
+            const id = '123';
+            vehicleService.getVehicleById(id, mockCallback);
+            assert(mockVehicleModel.findVehicleById.calledWith(id));
+        });
+    });
+
+    describe('addVehicle', function() {
+        it('should call addVehicle function with correct vehicle', function() {
+            const mockCallback = sinon.fake();
+            const mockVehicleModel = {
+                addVehicle: sinon.fake()
+            };
+            const vehicle = { make: 'Toyota', model: 'Corolla' };
+            vehicleService.addVehicle(vehicle, mockCallback);
+            assert(mockVehicleModel.addVehicle.calledWith(vehicle));
+        });
+    });
+
+    describe('updateVehicle', function() {
+        it('should call updateVehicle function with correct id and vehicle', function() {
+            const mockCallback = sinon.fake();
+            const mockVehicleModel = {
+                updateVehicle: sinon.fake()
+            };
+            const id = '123';
+            const updatedVehicle = { make: 'Toyota', model: 'Camry' };
+            vehicleService.updateVehicle(id, updatedVehicle, mockCallback);
+            assert(mockVehicleModel.updateVehicle.calledWith(id, updatedVehicle));
+        });
+    });
+
+    describe('deleteVehicle', function() {
+        it('should call deleteVehicle function with correct id', function() {
+            const mockCallback = sinon.fake();
+            const mockVehicleModel = {
+                deleteVehicle: sinon.fake()
+            };
+            const id = '123';
+            vehicleService.deleteVehicle(id, mockCallback);
+            assert(mockVehicleModel.deleteVehicle.calledWith(id));
+        });
+    });
+
+});
